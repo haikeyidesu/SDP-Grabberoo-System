@@ -10,4 +10,5 @@ Our SDP Asssignment Project
 | Iterator         | Display Menu | Kai Sheng        |
 | Factory          | Create Order | Asher            |
 | Decrator         | Food Item    | Asher            |
-| -                | -            | -                |
+| Command          | Add Order    | Janelle          |
+|          |      | Janelle          |
