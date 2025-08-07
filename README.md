@@ -6,5 +6,8 @@ Our SDP Asssignment Project
 |------------------|--------------|------------------|
 | Strategy         | Payment      | Shakir           |
 | Composite        | Menu         | Shakir           |
-| -                | -            | -                |
+| State            | Order        | Kai Sheng        |
+| Iterator         | Display Menu | Kai Sheng        |
+| Factory          | Create Order | Asher            |
+| Decrator         | Food Item    | Asher            |
 | -                | -            | -                |
