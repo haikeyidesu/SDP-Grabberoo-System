@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDP ASGGN", "SDP ASGGN\SDP ASGGN.csproj", "{A4A8C33A-0C49-41F4-8054-45ECAD836E66}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A4A8C33A-0C49-41F4-8054-45ECAD836E66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4A8C33A-0C49-41F4-8054-45ECAD836E66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4A8C33A-0C49-41F4-8054-45ECAD836E66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4A8C33A-0C49-41F4-8054-45ECAD836E66}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {04E5DB70-A7CA-4FA8-9CA5-7CAF20256559}
+	EndGlobalSection
+EndGlobal
