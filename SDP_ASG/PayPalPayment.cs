@@ -22,7 +22,7 @@ namespace SDP_ASG
         }
 
         public PayPalPayment(double balance, string paymentDetails)
-        {
+        { 
             PaymentDetails = paymentDetails;
             Balance = balance;
         }

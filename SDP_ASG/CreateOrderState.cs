@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SDP_ASGGN
+namespace SDP_ASG
 {
     internal class CreateOrderState:OrderStates
     {
         private Order order;
-        public Order Order { get; set; }
+        public Order Order { get { return order; } set { order = value; } }
 
         public CreateOrderState(Order order)
         {

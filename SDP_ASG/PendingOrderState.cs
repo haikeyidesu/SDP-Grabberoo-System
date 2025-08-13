@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SDP_ASGGN
+namespace SDP_ASG
 {
     internal class PendingOrderState:OrderStates
     {
         private Order order;
-        public Order Order { get; set; }
+        public Order Order {get { return order; } set { order = value; }}
 
         public PendingOrderState(Order order)
         {
@@ -22,7 +22,7 @@ namespace SDP_ASGGN
         }
         public void CancelOrder(bool orderCancellable)
         {
-            if (orderCancellable == false)
+            if (orderCancellable == true)
             {
                 Console.WriteLine("Order cancelled , you will be refunded ");
                 order.State = order.RemovedState;
@@ -34,7 +34,7 @@ namespace SDP_ASGGN
         }
         public void RejectOrder(bool orderCancellable)
         {
-            if (orderCancellable == false)
+            if (orderCancellable == true)
             {
                 Console.WriteLine("Order rejected ,customer will be refunded ");
                 order.State = order.RemovedState;
@@ -48,13 +48,14 @@ namespace SDP_ASGGN
         {
             Console.WriteLine("Order is being prepared.");
             order.OrderStatus= "Preparing";
-            order.State = order.PrepareOrderState; 
+            order.State = order.PrepareOrderState;
+            order.OrderCancellable = false;
         }
-        public void CompleteOrder(string orderStatus)
+        public void CompleteOrder()
         {
             Console.WriteLine("Can't complete order. Please place an order first.");
         }
     }
 }
-    }
-}
+    
+

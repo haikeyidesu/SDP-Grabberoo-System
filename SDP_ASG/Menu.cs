@@ -1,5 +1,7 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,11 +55,20 @@ namespace SDP_ASG
         {
             string indentString = new string(' ', Indent * 2);
             Console.WriteLine($"{indentString}{Name} Menu:");
-            foreach (MenuComponent mc in menuComponents)
-            {
-                mc.print();
-            }
         }
 
+
+        //Kai Sheng ( for iterator)
+
+        public List<MenuComponent> GetChildren()
+        {
+            return menuComponents;
+            
+        }
+
+        public Iterator createIterator()
+        {
+            return new CompositeIterator(menuComponents.GetEnumerator());
+        }
     }
 }

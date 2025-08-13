@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SDP_ASGGN
+namespace SDP_ASG
 {
     internal class Order
     {   
@@ -14,11 +14,11 @@ namespace SDP_ASGGN
         private OrderStates createOrderState;
         public OrderStates CreateOrderState { get { return createOrderState; } set { createOrderState = value; } }
         private OrderStates pendingOrderState;
-        public OrderStates PendingOrderState { get { return PendingOrderState; } set { PendingOrderState = value; } }
+        public OrderStates PendingOrderState { get { return pendingOrderState; } set { pendingOrderState = value; } }
         private OrderStates prepareOrderState;
-        public OrderStates PrepareOrderState { get { return PrepareOrderState; } set { PrepareOrderState = value; } }
+        public OrderStates PrepareOrderState { get { return prepareOrderState; } set { prepareOrderState = value; } }
         private OrderStates completeOrderState;
-        public OrderStates CompleteOrderState { get { return CompleteOrderState; } set { CompleteOrderState = value; } }
+        public OrderStates CompleteOrderState { get { return completeOrderState; } set { completeOrderState = value; } }
         private OrderStates removedState;
         public OrderStates RemovedState { get { return removedState; } set { removedState = value; } }
 
@@ -35,8 +35,7 @@ namespace SDP_ASGGN
         public bool OrderCancellable { get { return orderCancellable; } set { orderCancellable = value; } }
         private DateTime orderDate;
         public DateTime OrderDate { get { return orderDate; } set { orderDate = value; } }
-        private Restaurant restaurant;
-        public Restaurant Restaurant { get { return restaurant; } set { restaurant = value; } }
+       
 
         public Order(DateTime DeliveryTime,string Address,string OrderStatus,string PaymentMethod,bool OrderCancellable)
         { 
@@ -67,6 +66,10 @@ namespace SDP_ASGGN
         public void CompleteOrder()
         {
             state.CompleteOrder();
+            if (State is CompleteOrderState completeOrderState)
+            {
+                completeOrderState.OnEnterState();
+            }
         }
     }
 }

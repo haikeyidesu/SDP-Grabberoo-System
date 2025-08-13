@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SDP_ASGGN
+namespace SDP_ASG
 {
     internal class RemovedState : OrderStates
     {
         private Order order;
-        public Order Order { get; set; }
+        public Order Order { get { return order; } set { order = value; } }
         public RemovedState(Order order)
-        { 
+        {
             this.Order = order;
         }
         public void PayOrder(bool payment)
@@ -30,10 +30,9 @@ namespace SDP_ASGGN
         {
             Console.WriteLine("Order has been removed. Cannot prepare it.");
         }
-        public void CancelOrder()
+        public void CompleteOrder()
         {
             Console.WriteLine("Order has been removed. Cannot complete it.");
         }
-
-        }
+    }
 }

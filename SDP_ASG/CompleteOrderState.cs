@@ -4,20 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SDP_ASGGN
+namespace SDP_ASG
 {
     internal class CompleteOrderState:OrderStates
     {
         private Order order;
-        public Order Order { get; set; }
+        public Order Order { get { return order; } set { order = value; } }
 
         public CompleteOrderState(Order order)
         {
             this.Order = order;
-
-            Console.WriteLine("Order is completed. Archiving order in 1 year.");
-            order.OrderStatus = "Completed";
-            order.State = order.RemovedState; 
+        }
+        public void OnEnterState()
+        {
+            if (Order.State == Order.CompleteOrderState)
+            {
+                Console.WriteLine("Order is completed. Archiving order in 1 year.");
+                Order.State = Order.RemovedState; 
+            }
         }
 
         public void PayOrder(bool payment)

@@ -38,5 +38,6 @@ namespace SDP_ASG
             string indentString = new string(' ', Indent * 2);
             Console.WriteLine($"{indentString}{Name} - {Description}\n{indentString}Price: ${Price:0.00}");
         }
+
     }
 }
