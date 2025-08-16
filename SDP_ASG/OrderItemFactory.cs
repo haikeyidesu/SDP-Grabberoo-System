@@ -10,6 +10,6 @@ namespace SDP_ASG
     {
         // creates an OrderItem with the given parameters
         // OrderItem can be Food, Beverage or Condiment (Decorator)
-        public abstract OrderItem CreateOrderItem();
+        public abstract OrderItem CreateOrderItem(MenuItem selectedMenuItem, int quantity);
     }
 }

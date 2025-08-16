@@ -8,12 +8,12 @@ namespace SDP_ASG
 {
     internal class FoodOrderItemFactory : OrderItemFactory
     {
-        public override OrderItem CreateOrderItem()
+        public override OrderItem CreateOrderItem(MenuItem selectedMenuItem, int quantity)
         {
             Console.WriteLine("Creating a new order in Pending state...");
 
             // create a new order with pending state
-            OrderItem orderItem = new OrderItem();
+            OrderItem orderItem = new OrderItem(selectedMenuItem, quantity);
 
             return orderItem;
         }

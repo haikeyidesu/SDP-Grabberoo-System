@@ -8,26 +8,29 @@ namespace SDP_ASG
 {
     internal class OrderItem
     {
-        private string name;
-        private string description;
-        private double price;
+        private MenuItem menuItem;
+        private string name => menuItem.Name;
+        private string description => menuItem.Description;
+        private double price => menuItem.Price;
         private int quantity;
-        private double totalPrice => price * quantity;
+        private double totalPrice => price * (double)quantity;
 
+        public MenuItem MenuItem
+        {
+            get { return menuItem; }
+            set { menuItem = value; }
+        }
         public string Name
         {
             get { return name; }
-            set { name = value; }
         }
         public string Description
         {
             get { return description; }
-            set { description = value; }
         }
         public double Price
         {
             get { return price; }
-            set { price = value; }
         }
         public int Quantity
         {
@@ -45,17 +48,7 @@ namespace SDP_ASG
         // name and price properties are inherited from a MenuItem
         public OrderItem(MenuItem menuItem, int quantity)
         {
-            Name = menuItem.Name;
-            Price = menuItem.Price;
-            Quantity = quantity;
-        }
-
-        public OrderItem() { }
-        public OrderItem(string name, double price, int quantity)
-        {
-            Name = name;
-            Price = price;
-            Quantity = quantity;
+            this.quantity = quantity;
         }
     }
 }
