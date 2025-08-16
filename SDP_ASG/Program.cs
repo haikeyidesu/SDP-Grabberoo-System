@@ -34,6 +34,13 @@ order.PayOrder(true); // Transition to PendingOrderState
 order.PrepareOrder(); // Transition to PrepareOrderState
 order.CompleteOrder(); // Transition to CompleteOrderState
 
+// Create a OrderItem with Factory Method Pattern
+Console.WriteLine("\nCreating Order Item:");
+OrderItemFactory orderItemFactory = new FoodOrderItemFactory();
+OrderItem orderItem = orderItemFactory.CreateOrderItem();
+// then create an order with the created order item
+
+
 // Payment using the Strategy Pattern
 Console.WriteLine("\nPayment:");
 PaymentStrategy creditCardPayment = new CreditCardPayment(100.0, "1234-5678-9012-3456");

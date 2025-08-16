@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SDP_ASG
+{
+    internal class FoodOrderItemFactory : OrderItemFactory
+    {
+        public override OrderItem CreateOrderItem()
+        {
+            Console.WriteLine("Creating a new order in Pending state...");
+
+            // create a new order with pending state
+            OrderItem orderItem = new OrderItem();
+
+            return orderItem;
+        }
+    }
+}
