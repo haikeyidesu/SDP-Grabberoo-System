@@ -42,9 +42,7 @@ internal class Program
         Console.WriteLine("\nCreating Order Item:");
         OrderItemFactory orderItemFactory = new FoodOrderItemFactory();
         OrderItem orderItem = orderItemFactory.CreateOrderItem(springrolls, 3);
-        Console.WriteLine(springrolls.Name);
-        Console.WriteLine(orderItem.Name);
-        //Console.WriteLine($"Order Item Created: {orderItem.Name}, Quantity: {orderItem.Quantity}");
+        Console.WriteLine($"Order Item Created: {orderItem.Name}, Quantity: {orderItem.Quantity}");
         // then create an order with the created order item
 
 

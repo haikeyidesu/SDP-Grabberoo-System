@@ -13,7 +13,8 @@ namespace SDP_ASG
             Console.WriteLine("Creating a new order in Pending state...");
 
             // create a new order with pending state
-            OrderItem orderItem = new OrderItem(selectedMenuItem, quantity);
+            FoodMenuItem foodMenuItem = new FoodMenuItem(selectedMenuItem.Name, selectedMenuItem.Description, selectedMenuItem.Price);
+            OrderItem orderItem = new OrderItem(foodMenuItem, quantity);
 
             return orderItem;
         }

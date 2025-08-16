@@ -9,9 +9,9 @@ namespace SDP_ASG
     internal class OrderItem
     {
         private MenuItem menuItem;
-        private string name => menuItem.Name;
-        private string description => menuItem.Description;
-        private double price => menuItem.Price;
+        private string name => this.menuItem.Name;
+        private string description => this.menuItem.Description;
+        private double price => this.menuItem.Price;
         private int quantity;
         private double totalPrice => price * (double)quantity;
 
@@ -48,6 +48,7 @@ namespace SDP_ASG
         // name and price properties are inherited from a MenuItem
         public OrderItem(MenuItem menuItem, int quantity)
         {
+            this.menuItem = menuItem;
             this.quantity = quantity;
         }
     }
