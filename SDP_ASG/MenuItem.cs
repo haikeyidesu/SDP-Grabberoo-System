@@ -6,32 +6,26 @@ using System.Threading.Tasks;
 
 namespace SDP_ASG
 {
-    internal class MenuItem : MenuComponent
+    internal abstract class MenuItem : MenuComponent
     {
         private string name;
         private string description;
         private double price;
         private DiscountStrategy discountType;
-        public string Name
+        public virtual string Name
         {
             get { return name; }
             set { name = value; }
         }
-        public string Description
+        public virtual string Description
         {
             get { return description; }
             set { description = value; }
         }
-        public double Price
+        public virtual double Price
         {
             get { return price; }
             set { price = value; }
-        }
-        public MenuItem(string name, string desc, double price)
-        {
-            Name = name;
-            Description = desc;
-            Price = price;
         }
 
         public void SetDiscount(DiscountStrategy discount)

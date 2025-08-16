@@ -11,12 +11,12 @@ internal class Program
         mainMenu.add(appetizers);
         mainMenu.add(desserts);
 
-        MenuItem springrolls = new MenuItem("Spring Rolls", "Crispy rolls with vegetables", 5.99);
-        MenuItem Garlic = new MenuItem("Garlic Bread", "Toasted bread with garlic butter", 3.99);
+        MenuItem springrolls = new FoodMenuItem("Spring Rolls", "Crispy rolls with vegetables", 5.99);
+        MenuItem Garlic = new FoodMenuItem("Garlic Bread", "Toasted bread with garlic butter", 3.99);
         appetizers.add(springrolls);
         appetizers.add(Garlic);
-        MenuItem IceCream = new MenuItem("Ice Cream", "Vanilla ice cream", 4.99);
-        MenuItem Brownie = new MenuItem("Brownie", "Chocolate brownie with nuts", 6.99);
+        MenuItem IceCream = new FoodMenuItem("Ice Cream", "Vanilla ice cream", 4.99);
+        MenuItem Brownie = new FoodMenuItem("Brownie", "Chocolate brownie with nuts", 6.99);
         desserts.add(IceCream);
         desserts.add(Brownie);
 
@@ -37,6 +37,16 @@ internal class Program
         order.PayOrder(true); // Transition to PendingOrderState
         order.PrepareOrder(); // Transition to PrepareOrderState
         order.CompleteOrder(); // Transition to CompleteOrderState
+
+
+        // Create an OrderItem with Factory Method Pattern
+        Console.WriteLine("\nCreate OrderItem: ");
+        OrderItemFactory foodStall = new FoodOrderItemFactory();
+        OrderItem orderItem = foodStall.CreateOrderItem(springrolls, 3);
+        orderItem = new Cheese(orderItem);
+        // display successful creation of order item
+        Console.WriteLine($"{orderItem.getName()} x {orderItem.getQuantity()} : ${orderItem.getCost():N2}");
+
 
         // Payment using the Strategy Pattern
         Console.WriteLine("\nPayment:");
