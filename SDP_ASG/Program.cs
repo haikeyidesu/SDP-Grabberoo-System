@@ -38,6 +38,12 @@ internal class Program
         order.PrepareOrder(); // Transition to PrepareOrderState
         order.CompleteOrder(); // Transition to CompleteOrderState
 
+        // Create an OrderItem with Factory Method Pattern
+        Console.WriteLine("\nCreate OrderItem: ");
+        OrderItemFactory foodStall = new FoodOrderItemFactory();
+        foodStall.CreateOrderItem(springrolls, 3);
+
+
         // Payment using the Strategy Pattern
         Console.WriteLine("\nPayment:");
         PaymentStrategy creditCardPayment = new CreditCardPayment(100.0, "1234-5678-9012-3456");
