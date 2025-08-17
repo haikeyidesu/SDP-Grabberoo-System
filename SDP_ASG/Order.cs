@@ -1,66 +1,84 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SDP_ASG
 {
     internal class Order
-    {   
-        //states
+    {
+        // --- States ---
         private OrderStates state;
         public OrderStates State { get { return state; } set { state = value; } }
-        private OrderStates createOrderState;
-        public OrderStates CreateOrderState { get { return createOrderState; } set { createOrderState = value; } }
-        private OrderStates pendingOrderState;
-        public OrderStates PendingOrderState { get { return pendingOrderState; } set { pendingOrderState = value; } }
-        private OrderStates prepareOrderState;
-        public OrderStates PrepareOrderState { get { return prepareOrderState; } set { prepareOrderState = value; } }
-        private OrderStates completeOrderState;
-        public OrderStates CompleteOrderState { get { return completeOrderState; } set { completeOrderState = value; } }
-        private OrderStates removedState;
-        public OrderStates RemovedState { get { return removedState; } set { removedState = value; } }
+        public OrderStates CreateOrderState { get; private set; }
+        public OrderStates PendingOrderState { get; private set; }
+        public OrderStates PrepareOrderState { get; private set; }
+        public OrderStates CompleteOrderState { get; private set; }
+        public OrderStates RemovedState { get; private set; }
 
-        //Order attributes
-        private DateTime deliveryTime;
-        public DateTime DeliveryTime { get { return deliveryTime; } set { deliveryTime = value; } }
-        private string address;
-        public string Address { get { return address; } set { address = value; } }
-        private string paymentMethod;
-        public string PaymentMethod { get { return paymentMethod; } set { paymentMethod = value; } }
-        private bool orderCancellable;
-        public bool OrderCancellable { get { return orderCancellable; } set { orderCancellable = value; } }
-        private DateTime orderDate;
-        public DateTime OrderDate { get { return orderDate; } set { orderDate = value; } }
-       
+        // --- Order attributes ---
+        public DateTime DeliveryTime { get; set; }
+        public string Address { get; set; }
+        public string PaymentMethod { get; set; }
+        public bool OrderCancellable { get; set; }
+        public DateTime OrderDate { get; set; }
 
-        public Order(DateTime DeliveryTime,string Address,string OrderStatus,string PaymentMethod,bool OrderCancellable)
-        { 
-            CreateOrderState=new CreateOrderState(this);
+        // --- Order Items ---
+        private List<OrderItem> items = new List<OrderItem>();
+
+        public void AddItem(OrderItem item)
+        {
+            items.Add(item);
+        }
+
+        public bool IsEmpty() => items.Count == 0;
+
+        public double GetTotal()
+        {
+            double total = 0;
+            foreach (var item in items)
+            {
+                total += item.TotalPrice;
+            }
+            return total;
+        }
+
+        public void PrintItems()
+        {
+            if (items.Count == 0)
+            {
+                Console.WriteLine("No items in this order.");
+                return;
+            }
+
+            Console.WriteLine("--- Order Items ---");
+            foreach (var item in items)
+            {
+                Console.WriteLine($"{item.Quantity}x {item.MenuItem.Name} - ${item.TotalPrice:0.00}");
+            }
+            Console.WriteLine($"Total = ${GetTotal():0.00}");
+        }
+
+        
+        public Order(DateTime deliveryTime, string address, string orderStatus, string paymentMethod, bool orderCancellable)
+        {
+            CreateOrderState = new CreateOrderState(this);
             PendingOrderState = new PendingOrderState(this);
             PrepareOrderState = new PrepareOrderState(this);
             CompleteOrderState = new CompleteOrderState(this);
-            RemovedState= new RemovedState(this);
+            RemovedState = new RemovedState(this);
+
             state = CreateOrderState;
+            DeliveryTime = deliveryTime;
+            Address = address;
+            PaymentMethod = paymentMethod;
+            OrderCancellable = orderCancellable;
+            OrderDate = DateTime.Now;
         }
 
-        public void PayOrder(bool payment)
-        {
-            state.PayOrder(payment);
-        }
-        public void CancelOrder(bool orderCancellable)
-        {
-            state.CancelOrder(orderCancellable);
-        }
-        public void RejectOrder(bool orderCancellable)
-        {
-            state.RejectOrder(orderCancellable);
-        }
-        public void PrepareOrder()
-        {
-            state.PrepareOrder();
-        }
+        
+        public void PayOrder() { state.PayOrder(); }
+        public void CancelOrder() { state.CancelOrder(); }
+        public void RejectOrder() { state.RejectOrder(); }
+        public void PrepareOrder() { state.PrepareOrder(); }
         public void CompleteOrder()
         {
             state.CompleteOrder();
@@ -69,5 +87,8 @@ namespace SDP_ASG
                 completeOrderState.OnEnterState();
             }
         }
+
+        
+        public string StateName => state.GetType().Name.Replace("State", "");
     }
 }
