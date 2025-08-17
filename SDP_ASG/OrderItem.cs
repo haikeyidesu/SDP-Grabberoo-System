@@ -53,18 +53,5 @@ namespace SDP_ASG
             this.menuItem = menuItem;
             this.quantity = quantity;
         }
-
-        //Command
-        public void AddItem()
-        {
-            orderList.Add(this);
-            Console.WriteLine($"{Quantity}x {Name} added to order.");
-        }
-
-        public void RemoveItem()
-        {
-            orderList.Remove(this);
-            Console.WriteLine($"{Quantity}x {Name} removed from order.");
-        }
     }
 }

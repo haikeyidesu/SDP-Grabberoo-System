@@ -31,7 +31,7 @@ namespace SDP_ASG
             while (!leave)
             {
                 string role = "";
-                while (role != "1" && role != "2")
+                while (role != "1" && role != "2" && role != "3")
                 {
                     Console.WriteLine("\n=== Grabberoo Food Delivery ===");
                     Console.WriteLine("Select your role");
