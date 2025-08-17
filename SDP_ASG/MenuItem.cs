@@ -11,6 +11,7 @@ namespace SDP_ASG
         private string name;
         private string description;
         private double price;
+        private DiscountStrategy discountType;
         public string Name
         {
             get { return name; }
@@ -33,10 +34,16 @@ namespace SDP_ASG
             Price = price;
         }
 
+        public void SetDiscount(DiscountStrategy discount)
+        {
+            discountType = discount;
+        }
+
         public override void print()
         {
             string indentString = new string(' ', Indent * 2);
-            Console.WriteLine($"{indentString}{Name} - {Description}\n{indentString}Price: ${Price:0.00}");
+            double discountPrice = discountType != null ? discountType.Discount(price) : price;
+            Console.WriteLine($"{indentString}{Name} - {Description}\n{indentString}Price: ${discountPrice:0.00}");
         }
 
     }

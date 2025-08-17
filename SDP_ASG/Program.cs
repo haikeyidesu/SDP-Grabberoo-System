@@ -48,3 +48,11 @@ payPalPayment.processPayment(30.0);
 
 Console.WriteLine("Paying with Cash on Delivery:");
 cashOnDelivery.processPayment(40.0);
+
+Console.WriteLine("\nMenu with Holiday Discount:");
+mainMenu.Discount(new HolidayDiscount());
+mainMenu.print();
+
+Console.WriteLine("\nMenu with Student Discount:");
+mainMenu.Discount(new StudentDiscount());
+mainMenu.print();
