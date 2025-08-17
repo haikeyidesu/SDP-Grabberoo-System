@@ -11,4 +11,4 @@ Our SDP Asssignment Project
 | Factory          | Create Order | Asher            |
 | Decrator         | Food Item    | Asher            |
 | Command          | Add Order    | Janelle          |
-|          |      | Janelle          |
+| Strategy         | Discount     | Janelle          |
