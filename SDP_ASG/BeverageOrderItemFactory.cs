@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace SDP_ASG
 {
-    internal class FoodOrderItemFactory : OrderItemFactory
+    internal class BeverageOrderItemFactory : OrderItemFactory
     {
         public override OrderItem CreateOrderItem(MenuItem selectedMenuItem, int quantity)
         {
             // create a new order with pending state
-            MenuItem foodMenuItem = new FoodMenuItem(selectedMenuItem.Name, selectedMenuItem.Description, selectedMenuItem.Price);
-            OrderItem orderItem = new FoodOrderItem(foodMenuItem, quantity);
+            MenuItem beverageMenuItem = new BeverageMenuItem(selectedMenuItem.Name, selectedMenuItem.Description, selectedMenuItem.Price);
+            OrderItem orderItem = new BeverageOrderItem(beverageMenuItem, quantity);
 
             return orderItem;
         }

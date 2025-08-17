@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SDP_ASG
 {
-    internal class FoodOrderItem : OrderItem
+    internal class BeverageOrderItem : OrderItem
     {
-        public FoodOrderItem(MenuItem menuItem, int quantity)
+        public BeverageOrderItem(MenuItem menuItem, int quantity)
         {
             this.menuItem = menuItem;
             this.quantity = quantity;

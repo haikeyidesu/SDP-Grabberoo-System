@@ -44,8 +44,16 @@ internal class Program
         OrderItemFactory foodStall = new FoodOrderItemFactory();
         OrderItem orderItem = foodStall.CreateOrderItem(springrolls, 3);
         orderItem = new Cheese(orderItem);
+        MenuItem lemonTea = new BeverageMenuItem("Lemon Tea", "Iced Lemon Tea", 3.50);
+        OrderItem orderItem2 = foodStall.CreateOrderItem(lemonTea, 5);
+        orderItem2 = new Cheese(orderItem2);
         // display successful creation of order item
         Console.WriteLine($"{orderItem.getName()} x {orderItem.getQuantity()} : ${orderItem.getCost():N2}");
+        Console.WriteLine($"{orderItem2.getName()} x {orderItem2.getQuantity()} : ${orderItem2.getCost():N2}");
+        if (orderItem2 is BeverageOrderItem beverage)
+        {
+            Console.WriteLine($"{orderItem2.getName()} is a beverage. ");
+        }
 
 
         // Payment using the Strategy Pattern

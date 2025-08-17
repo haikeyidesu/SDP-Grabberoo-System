@@ -35,6 +35,8 @@ namespace SDP_ASG
         public bool OrderCancellable { get { return orderCancellable; } set { orderCancellable = value; } }
         private DateTime orderDate;
         public DateTime OrderDate { get { return orderDate; } set { orderDate = value; } }
+        private List<OrderItem> orderItems = new List<OrderItem>();
+        public List<OrderItem> OrderItems { get { return orderItems; } set {  orderItems = value; } }
        
 
         public Order(DateTime DeliveryTime,string Address,string OrderStatus,string PaymentMethod,bool OrderCancellable)
