@@ -78,28 +78,28 @@ namespace SDP_ASG
                                 }
                                 break;
 
-                    case "2":
-                        if (currentOrder != null)
-                        {
-                            Console.Write("Do you want to create a new order and remove your existing order? 1=yes, 2=no : ");
-                            string userChoice = Console.ReadLine();
-                            bool removeExistingOrder = userChoice switch
-                            {
-                                "1" => true,
-                                "2" => false,
-                                _ => false // default to false
-                            };
-                            if (!removeExistingOrder)
-                            {
-                                Console.WriteLine("Existing order was not removed. ");
-                                break; // break out of loop
-                            }
-                        }
-                        // continue if user wants to remove existing order
-                        Console.WriteLine("Created new order and removed order. ");
-                        currentOrder = new Order(DateTime.Now, "123 Main St", "PendingPayment", "Not Paid", true);
-                        Console.WriteLine("New order created in state: " + currentOrder.StateName);
-                        break;
+                            case "2":
+                                if (currentOrder != null)
+                                {
+                                    Console.Write("Do you want to create a new order and remove your existing order? 1=yes, 2=no : ");
+                                    string userChoice = Console.ReadLine();
+                                    bool removeExistingOrder = userChoice switch
+                                    {
+                                        "1" => true,
+                                        "2" => false,
+                                        _ => false // default to false
+                                    };
+                                    if (!removeExistingOrder)
+                                    {
+                                        Console.WriteLine("Existing order was not removed. ");
+                                        break; // break out of loop
+                                    }
+                                }
+                                // continue if user wants to remove existing order
+                                Console.WriteLine("Created new order and removed order. ");
+                                currentOrder = new Order(DateTime.Now, "123 Main St", "PendingPayment", "Not Paid", true);
+                                Console.WriteLine("New order created in state: " + currentOrder.StateName);
+                                break;
 
                             case "3":
                                 if (currentOrder == null)
@@ -117,49 +117,21 @@ namespace SDP_ASG
                                     "4" => brownie,
                                     _ => null
                                 };
-                                if (selected != null)
+                                if (selected == null)
                                 {
-                                    Console.Write("Quantity: ");
-                                    int qty = int.Parse(Console.ReadLine());
-                                    OrderItemFactory factory = new FoodOrderItemFactory();
-                                    currentOrder.AddItem(factory.CreateOrderItem(selected, qty));
-                                    Console.WriteLine($"{qty}x {selected.Name} added.");
-                                }
-                                break;
-                            Console.WriteLine("Please create an order first.");
-                            break;
-                        }
-                        Console.WriteLine("Enter item number: 1=Spring Rolls, 2=Garlic Bread, 3=Ice Cream, 4=Brownie");
-                        string itemChoice = Console.ReadLine();
-                        MenuItem selected = itemChoice switch
-                        {
-                            "1" => springrolls,
-                            "2" => garlicBread,
-                            "3" => iceCream,
-                            "4" => brownie,
-                            _ => null
-                        };
-                        if (selected == null)
-                        {
-                            Console.WriteLine("Invalid item number selected. ");
-                            break;
-                        }
-                        Console.Write("Quantity: ");
-                        int qty = int.Parse(Console.ReadLine());
-                        // add extra condiments here
-                        OrderItemFactory factory = new FoodOrderItemFactory();
-                        currentOrder.AddItem(factory.CreateOrderItem(selected, qty));
-                        Console.WriteLine($"{qty}x {selected.Name} added.");
+                                    Console.WriteLine("Invalid item number selected. ");
+                                    break;
 
-                        break;
 
-                            case "4":
-                                if (currentOrder != null)
-                                {
-                                    Console.WriteLine("Current Order (" + currentOrder.StateName + "):");
-                                    currentOrder.PrintItems();
+
                                 }
-                                else Console.WriteLine("No order exists.");
+                                Console.Write("Quantity: ");
+                                int qty = int.Parse(Console.ReadLine());
+                                // add extra condiments here
+                                OrderItemFactory factory = new FoodOrderItemFactory();
+                                currentOrder.AddItem(factory.CreateOrderItem(selected, qty));
+                                Console.WriteLine($"{qty}x {selected.Name} added.");
+
                                 break;
 
                             case "5":
