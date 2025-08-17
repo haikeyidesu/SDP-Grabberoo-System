@@ -10,18 +10,25 @@ namespace SDP_ASG
             Menu mainMenu = new Menu("Main Menu");
             Menu appetizers = new Menu("Appetizers");
             Menu desserts = new Menu("Desserts");
+            Menu drinks = new Menu("Drinks");
             mainMenu.add(appetizers);
             mainMenu.add(desserts);
+            mainMenu.add(drinks);
 
-            MenuItem springrolls = new MenuItem("Spring Rolls", "Crispy rolls with vegetables", 5.99);
-            MenuItem garlicBread = new MenuItem("Garlic Bread", "Toasted bread with garlic butter", 3.99);
+            MenuItem springrolls = new FoodMenuItem("Spring Rolls", "Crispy rolls with vegetables", 5.99);
+            MenuItem garlicBread = new FoodMenuItem("Garlic Bread", "Toasted bread with garlic butter", 3.99);
             appetizers.add(springrolls);
             appetizers.add(garlicBread);
 
-            MenuItem iceCream = new MenuItem("Ice Cream", "Vanilla ice cream", 4.99);
-            MenuItem brownie = new MenuItem("Brownie", "Chocolate brownie with nuts", 6.99);
+            MenuItem iceCream = new FoodMenuItem("Ice Cream", "Vanilla ice cream", 4.99);
+            MenuItem brownie = new FoodMenuItem("Brownie", "Chocolate brownie with nuts", 6.99);
             desserts.add(iceCream);
             desserts.add(brownie);
+
+            MenuItem iceLemonTea = new BeverageMenuItem("Ice Lemon Tea", "Homemade Iced Lemon Tea", 4.99);
+            MenuItem greenTea = new BeverageMenuItem("Green Tea", "Aromatic China Grade Premium Imperial Green Tea", 5.99);
+            drinks.add(iceLemonTea);
+            drinks.add(greenTea);
 
             Order currentOrder = null;
             DiscountStrategy currentDiscount = null;
@@ -273,7 +280,91 @@ namespace SDP_ASG
                                 Console.WriteLine("Invalid option.");
                             }
                         }
-                        else if (choice == "2")
+                        // continue if user wants to remove existing order
+                        Console.WriteLine("Created new order and removed order. ");
+                        currentOrder = new Order(DateTime.Now, "123 Main St", "PendingPayment", "Not Paid", true);
+                        Console.WriteLine("New order created in state: " + currentOrder.StateName);
+                        break;
+
+                    case "3":
+                        if (currentOrder == null)
+                        {
+                            Console.WriteLine("Please create an order first.");
+                            break;
+                        }
+                        Console.WriteLine("Enter item number: 1=Spring Rolls, 2=Garlic Bread, 3=Ice Cream, 4=Brownie, 5=Ice Lemon Tea, 6=Green Tea");
+                        string itemChoice = Console.ReadLine();
+                        MenuItem selected = itemChoice switch
+                        {
+                            "1" => springrolls,
+                            "2" => garlicBread,
+                            "3" => iceCream,
+                            "4" => brownie,
+                            "5" => iceLemonTea,
+                            "6" => greenTea,
+                            _ => null
+                        };
+                        if (selected == null)
+                        {
+                            Console.WriteLine("Invalid item number selected. ");
+                            break;
+                        }
+                        Console.Write("Quantity: ");
+                        int qty = int.Parse(Console.ReadLine());
+                        //add extra condiments here
+                        // if selected is a beverage
+                        OrderItem newOrderItem = null;
+                        if (selected is BeverageMenuItem beverage)
+                        {
+                            Console.WriteLine("Would you like to modify your drink?");
+                            OrderItemFactory bevFactory = new BeverageOrderItemFactory();
+                            newOrderItem = bevFactory.CreateOrderItem(selected, qty);
+
+                            Console.WriteLine("beverage selected");
+                            Console.WriteLine("1 = More Ice");
+                            Console.WriteLine("2 = Less Ice");
+                            Console.WriteLine("3 = Normal Ice");
+                            string iceChoice = Console.ReadLine();
+                            newOrderItem = iceChoice switch
+                            {
+                                "1" => new MoreIce(newOrderItem),
+                                "2" => new LessIce(newOrderItem),
+                                "3" => newOrderItem,
+                                _ => newOrderItem // default to normal ice
+                            };
+                        } else // if selected is a food
+                        {
+                            Console.WriteLine("Would you like some extra condiments?");
+                            OrderItemFactory foodFactory = new FoodOrderItemFactory();
+                            newOrderItem = foodFactory.CreateOrderItem(selected, qty);
+                            Console.WriteLine("1 = Cheese");
+                            Console.WriteLine("2 = Hot Sauce");
+                            Console.WriteLine("3 = No thanks");
+                            string iceChoice = Console.ReadLine();
+                            newOrderItem = iceChoice switch
+                            {
+                                "1" => new Cheese(newOrderItem),
+                                "2" => new HotSauce(newOrderItem),
+                                "3" => newOrderItem,
+                                _ => newOrderItem // default to normal ice
+                            };
+                        }
+                        currentOrder.AddItem(newOrderItem);
+                        Console.WriteLine($"{((OrderItem)newOrderItem).getQuantity()}x {((OrderItem)newOrderItem).getName()} added.");
+
+                        break;
+
+                    case "4":
+                        if (currentOrder != null)
+                        {
+                            Console.WriteLine("Current Order (" + currentOrder.StateName + "):");
+                            currentOrder.PrintItems();
+                        }
+                        else Console.WriteLine("No order exists.");
+                        break;
+
+                    case "5":
+                        if (currentOrder == null || currentOrder.IsEmpty())
                         {
                             exit = true;
                             break;
