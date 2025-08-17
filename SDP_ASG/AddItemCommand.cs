@@ -8,16 +8,19 @@ namespace SDP_ASG
 {
     internal class AddItemCommand : Command
     {
-        OrderItem item;
+        private OrderItem item;
+        private Order order;
 
-        public AddItemCommand(OrderItem item)
+        public AddItemCommand(OrderItem item, Order order)
         {
             this.item = item;
+            this.order = order;
         }
 
         public void execute()
         {
-            item.AddItem();
+            order.AddItem(item);
+            Console.WriteLine($"{item.Quantity}x {item.Name} added to order.");
         }
 
         public void undo()

@@ -25,6 +25,7 @@ namespace SDP_ASG
 
             Order currentOrder = null;
             DiscountStrategy currentDiscount = null;
+            Customer customer = new Customer();
             bool leave = false;
 
             while (!leave)
@@ -130,8 +131,12 @@ namespace SDP_ASG
                                 OrderItemFactory factory = new FoodOrderItemFactory();
                                 OrderItem orderItem = factory.CreateOrderItem(selected, qty);
 
-                                Command addCommand = new AddItemCommand(orderItem);
-                                addCommand.execute();
+                                Command addCommand = new AddItemCommand(orderItem, currentOrder);
+                                Command removeCommand = new RemoveItemCommand(orderItem, currentOrder);
+
+                                int slot = 0;
+                                customer.SetCommand(slot, addCommand, removeCommand);
+                                customer.AddOrder(slot);
 
                                 break;
 

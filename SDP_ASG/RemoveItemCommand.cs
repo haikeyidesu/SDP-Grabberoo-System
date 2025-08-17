@@ -9,15 +9,18 @@ namespace SDP_ASG
     internal class RemoveItemCommand : Command
     {
         private OrderItem item;
+        private Order order;
 
-        public RemoveItemCommand(OrderItem item)
+        public RemoveItemCommand(OrderItem item, Order order)
         {
             this.item = item;
+            this.order = order;
         }
 
         public void execute()
         {
             item.RemoveItem();
+            Console.WriteLine($"{item.Quantity}x {item.Name} removed from order.");
         }
 
         public void undo()
