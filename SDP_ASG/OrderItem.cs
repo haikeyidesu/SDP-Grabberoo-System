@@ -16,6 +16,7 @@ namespace SDP_ASG
         protected double totalPrice => menuItem.GetDiscountPrice() * (double)quantity;
         //protected OrderItem orderItem;
         protected List<OrderItem> orderList;
+
         public MenuItem MenuItem
         {
             get { return menuItem; }

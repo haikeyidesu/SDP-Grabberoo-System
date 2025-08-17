@@ -56,18 +56,6 @@ namespace SDP_ASG
         {
             string indentString = new string(' ', Indent * 2);
             Console.WriteLine($"{indentString}{Name} Menu:");
-            foreach (var mc in MenuComponents)
-            {
-                if (discountType != null && mc is MenuItem item)
-                {
-                    item.SetDiscount(discountType);
-                }
-                else if (mc is Menu submenu)
-                {
-                    submenu.Discount(discountType);
-                }
-
-            }
         }
 
 
@@ -89,6 +77,13 @@ namespace SDP_ASG
         {
 
             discountType = discount;
+            foreach (var mc in MenuComponents)
+            {
+                if (mc is Menu submenu)
+                    submenu.Discount(discount);
+                else if (mc is MenuItem item)
+                    item.SetDiscount(discount);
+            }
         }
     }
 }

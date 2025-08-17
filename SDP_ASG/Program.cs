@@ -31,49 +31,253 @@ namespace SDP_ASG
             drinks.add(greenTea);
 
             Order currentOrder = null;
-            bool exit = false;
+            DiscountStrategy currentDiscount = null;
+            Customer customer = new Customer();
+            bool leave = false;
 
-            while (!exit)
+            while (!leave)
             {
-                Console.WriteLine("\n=== Grabberoo Food Delivery ===");
-                Console.WriteLine("1. View Menu");
-                Console.WriteLine("2. Create New Order");
-                Console.WriteLine("3. Add Item to Order");
-                Console.WriteLine("4. View Current Order");
-                Console.WriteLine("5. Pay & Submit Order");
-                Console.WriteLine("6. Cancel Order");
-                Console.WriteLine("7. Progress Order (Prepare → Deliver)");
-                Console.WriteLine("8. Exit");
-                Console.Write("Select option: ");
-                string choice = Console.ReadLine();
-
-                switch (choice)
+                string role = "";
+                while (role != "1" && role != "2")
                 {
-                    case "1":
-                        Console.WriteLine("\n--- Menu ---");
-                        Iterator menuIterator = mainMenu.createIterator();
-                        while (menuIterator.hasNext())
-                        {
-                            MenuComponent component = menuIterator.next();
-                            component.print();
-                        }
-                        break;
+                    Console.WriteLine("\n=== Grabberoo Food Delivery ===");
+                    Console.WriteLine("Select your role");
+                    Console.WriteLine("1. Customer");
+                    Console.WriteLine("2. Shop Owner");
+                    Console.WriteLine("3. Exit");
+                    Console.Write("Enter choice: ");
+                    role = Console.ReadLine();
+                }
+                bool isCustomer = role == "1";
+                bool isShopOwner = role == "2";
+                if (role == "3")
+                {
+                    leave = true;
+                    break;
+                }
+                bool exit = false;
 
-                    case "2":
-                        if (currentOrder != null)
+                if (isCustomer)
+                {
+                    while (!exit)
+                    {
+                        Console.WriteLine("\n=== Grabberoo Food Delivery ===");
+                        Console.WriteLine("1. View Menu");
+                        Console.WriteLine("2. Create New Order");
+                        Console.WriteLine("3. Add Item to Order");
+                        Console.WriteLine("4. View Current Order");
+                        Console.WriteLine("5. Pay & Submit Order");
+                        Console.WriteLine("6. Cancel Order");
+                        Console.WriteLine("7. Progress Order (Prepare → Deliver)");
+                        Console.WriteLine("8. Remove Item from Order");
+                        Console.WriteLine("9. Exit");
+                        Console.Write("Select option: ");
+                        string choice = Console.ReadLine();
+
+                        switch (choice)
                         {
-                            Console.Write("Do you want to create a new order and remove your existing order? 1=yes, 2=no : ");
-                            string userChoice = Console.ReadLine();
-                            bool removeExistingOrder = userChoice switch
+                            case "1":
+                                Console.WriteLine("\n--- Menu ---");
+                                Iterator menuIterator = mainMenu.createIterator();
+                                while (menuIterator.hasNext())
+                                {
+                                    MenuComponent component = menuIterator.next();
+                                    component.print();
+                                }
+                                break;
+
+                            case "2":
+                                if (currentOrder != null)
+                                {
+                                    Console.Write("Do you want to create a new order and remove your existing order? 1=yes, 2=no : ");
+                                    string userChoice = Console.ReadLine();
+                                    bool removeExistingOrder = userChoice switch
+                                    {
+                                        "1" => true,
+                                        "2" => false,
+                                        _ => false // default to false
+                                    };
+                                    if (!removeExistingOrder)
+                                    {
+                                        Console.WriteLine("Existing order was not removed. ");
+                                        break; // break out of loop
+                                    }
+                                }
+                                // continue if user wants to remove existing order
+                                Console.WriteLine("Created new order and removed order. ");
+                                currentOrder = new Order(DateTime.Now, "123 Main St", "PendingPayment", "Not Paid", true);
+                                Console.WriteLine("New order created in state: " + currentOrder.StateName);
+                                break;
+
+                            case "3":
+                                if (currentOrder == null)
+                                {
+                                    Console.WriteLine("Please create an order first.");
+                                    break;
+                                }
+                                Console.WriteLine("Enter item number: 1=Spring Rolls, 2=Garlic Bread, 3=Ice Cream, 4=Brownie");
+                                string itemChoice = Console.ReadLine();
+                                MenuItem selected = itemChoice switch
+                                {
+                                    "1" => springrolls,
+                                    "2" => garlicBread,
+                                    "3" => iceCream,
+                                    "4" => brownie,
+                                    _ => null
+                                };
+                                if (selected == null)
+                                {
+                                    Console.WriteLine("Invalid item number selected. ");
+                                    break;
+
+
+
+                                }
+                                Console.Write("Quantity: ");
+                                int qty = int.Parse(Console.ReadLine());
+                                // add extra condiments here
+                                OrderItemFactory factory = new FoodOrderItemFactory();
+                                OrderItem orderItem = factory.CreateOrderItem(selected, qty);
+
+                                Command addCommand = new AddItemCommand(orderItem, currentOrder);
+                                Command removeCommand = new RemoveItemCommand(orderItem, currentOrder);
+
+                                int slot = 0;
+                                customer.SetCommand(slot, addCommand, removeCommand);
+                                customer.AddOrder(slot);
+
+                                break;
+
+
+                            case "4":
+                                if (currentOrder != null)
+                                {
+                                    Console.WriteLine("Current Order (" + currentOrder.StateName + "):");
+                                    currentOrder.PrintItems();
+                                }
+                                else Console.WriteLine("No order exists.");
+                                break;
+
+                            case "5":
+                                if (currentOrder == null || currentOrder.IsEmpty())
+                                {
+                                    Console.WriteLine("No items in order.");
+                                    break;
+                                }
+
+                                Console.WriteLine("Choose payment: 1=Credit Card, 2=PayPal, 3=Cash on Delivery");
+                                string payChoice = Console.ReadLine();
+                                PaymentStrategy payment = payChoice switch
+                                {
+                                    "1" => new CreditCardPayment(currentOrder.GetTotal(), "1234-5678-9012-3456"),
+                                    "2" => new PayPalPayment(currentOrder.GetTotal(), "user@example.com"),
+                                    _ => new CashOnDeliveryPayment()
+                                };
+
+                                payment.processPayment(currentOrder.GetTotal());
+                                currentOrder.PayOrder(); // triggers state machine → PendingOrderState
+                                Console.WriteLine("Order state: " + currentOrder.StateName);
+                                break;
+
+                            case "6":
+                                if (currentOrder != null)
+                                {
+                                    currentOrder.CancelOrder();
+                                    Console.WriteLine("Order state: " + currentOrder.StateName);
+                                }
+                                else Console.WriteLine("No active order.");
+                                break;
+
+                            case "7":
+                                if (currentOrder == null) { Console.WriteLine("No active order."); break; }
+                                currentOrder.PrepareOrder();  // PendingOrderState → PrepareOrderState
+                                Console.WriteLine("Order state: " + currentOrder.StateName);
+                                currentOrder.CompleteOrder(); // PrepareOrderState → CompleteOrderState
+                                Console.WriteLine("Order state: " + currentOrder.StateName);
+                                currentOrder = null;
+                                break;
+                            case "8":
+                                if (currentOrder == null)
+                                {
+                                    Console.WriteLine("No order exists.");
+                                    break;
+                                }
+
+                                Console.WriteLine("Enter item number to remove: 1=Spring Rolls, 2=Garlic Bread, 3=Ice Cream, 4=Brownie");
+                                string removeChoice = Console.ReadLine();
+                                MenuItem itemToRemove = removeChoice switch
+                                {
+                                    "1" => springrolls,
+                                    "2" => garlicBread,
+                                    "3" => iceCream,
+                                    "4" => brownie,
+                                    _ => null
+                                };
+                                if (itemToRemove == null)
+                                {
+                                    Console.WriteLine("Invalid item number selected.");
+                                    break;
+                                }
+
+                                OrderItem itemInOrder = currentOrder.Items
+                                    .FirstOrDefault(oi => oi.MenuItem.Name == itemToRemove.Name);
+
+                                if (itemInOrder == null)
+                                {
+                                    Console.WriteLine("Item not in order.");
+                                    break;
+                                }
+
+                                Command remove = new RemoveItemCommand(itemInOrder, currentOrder);
+
+                                int removeSlot = 0;
+                                customer.SetCommand(removeSlot, new NoCommand(), remove);
+                                customer.RemoveOrder(removeSlot);
+
+                                break;
+
+                            case "9":
+                                exit = true;
+                                break;
+
+                            default:
+                                Console.WriteLine("Invalid option.");
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    while (!exit)
+                    {
+                        Console.WriteLine("\n=== Grabberoo Food Delivery ===");
+                        Console.WriteLine("1. Add Discount");
+                        Console.WriteLine("2. Exit");
+                        Console.Write("Select option: ");
+                        string choice = Console.ReadLine();
+                        if (choice == "1")
+                        {
+                            Console.WriteLine("");
+                            Console.WriteLine("Select discount type:");
+                            Console.WriteLine("1. Holiday Discount");
+                            Console.WriteLine("2. Shop Anniversary Discount");
+                            Console.Write("Enter choice: ");
+                            string discountChoice = Console.ReadLine();
+                            if (discountChoice == "1")
                             {
-                                "1" => true,
-                                "2" => false,
-                                _ => false // default to false
-                            };
-                            if (!removeExistingOrder)
+                                currentDiscount = new HolidayDiscount();
+                                mainMenu.Discount(currentDiscount);
+                                Console.WriteLine("Holiday Discount applied.");
+                            }
+                            else if (discountChoice == "2")
                             {
-                                Console.WriteLine("Existing order was not removed. ");
-                                break; // break out of loop
+                                currentDiscount = new ShopAnniversaryDiscount();
+                                mainMenu.Discount(currentDiscount);
+                                Console.WriteLine("Shop Anniversary Discount applied.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid option.");
                             }
                         }
                         // continue if user wants to remove existing order
@@ -162,49 +366,14 @@ namespace SDP_ASG
                     case "5":
                         if (currentOrder == null || currentOrder.IsEmpty())
                         {
-                            Console.WriteLine("No items in order.");
+                            exit = true;
                             break;
                         }
-                        
-                        Console.WriteLine("Choose payment: 1=Credit Card, 2=PayPal, 3=Cash on Delivery");
-                        string payChoice = Console.ReadLine();
-                        PaymentStrategy payment = payChoice switch
+                        else
                         {
-                            "1" => new CreditCardPayment(currentOrder.GetTotal(), "1234-5678-9012-3456"),
-                            "2" => new PayPalPayment(currentOrder.GetTotal(), "user@example.com"),
-                            _ => new CashOnDeliveryPayment()
-                        };
-
-                        payment.processPayment(currentOrder.GetTotal());
-                        currentOrder.PayOrder(); // triggers state machine → PendingOrderState
-                        Console.WriteLine("Order state: " + currentOrder.StateName);
-                        break;
-
-                    case "6":
-                        if (currentOrder != null)
-                        {
-                            currentOrder.CancelOrder();
-                            Console.WriteLine("Order state: " + currentOrder.StateName);
+                            Console.WriteLine("Invalid option.");
                         }
-                        else Console.WriteLine("No active order.");
-                        break;
-
-                    case "7":
-                        if (currentOrder == null) { Console.WriteLine("No active order."); break; }
-                        currentOrder.PrepareOrder();  // PendingOrderState → PrepareOrderState
-                        Console.WriteLine("Order state: " + currentOrder.StateName);
-                        currentOrder.CompleteOrder(); // PrepareOrderState → CompleteOrderState
-                        Console.WriteLine("Order state: " + currentOrder.StateName);
-                        currentOrder = null;
-                        break;
-
-                    case "8":
-                        exit = true;
-                        break;
-
-                    default:
-                        Console.WriteLine("Invalid option.");
-                        break;
+                    }
                 }
             }
         }

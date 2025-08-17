@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace SDP_ASG
 {
-    internal class StudentDiscount : DiscountStrategy
+    internal class ShopAnniversaryDiscount : DiscountStrategy
     {
         public double Discount(double price)
         {
-            return price / 100 * 80;
+            return price * 0.8;
         }
     }
 }
