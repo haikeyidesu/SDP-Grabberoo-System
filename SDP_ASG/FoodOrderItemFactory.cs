@@ -14,6 +14,9 @@ namespace SDP_ASG
             MenuItem foodMenuItem = new FoodMenuItem(selectedMenuItem.Name, selectedMenuItem.Description, selectedMenuItem.Price);
             OrderItem orderItem = new FoodOrderItem(foodMenuItem, quantity);
 
+            // display successful creation of FoodOrderItem
+            Console.WriteLine($"Successfully created {orderItem.Name} Order Item x {orderItem.Quantity} \nTotal Cost: ${orderItem.TotalPrice:N2} (Each {orderItem.Name} costs ${orderItem.Price:N2})");
+
             return orderItem;
         }
     }
