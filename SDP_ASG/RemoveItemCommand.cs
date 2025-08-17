@@ -22,7 +22,6 @@ namespace SDP_ASG
 
         public void undo()
         {
-            item.AddItem();
         }
     }
 }

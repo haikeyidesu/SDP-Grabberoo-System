@@ -69,7 +69,6 @@ namespace SDP_ASG
                         {
                             case "1":
                                 Console.WriteLine("\n--- Menu ---");
-                                mainMenu.Discount(currentDiscount);
                                 Iterator menuIterator = mainMenu.createIterator();
                                 while (menuIterator.hasNext())
                                 {
@@ -129,9 +128,21 @@ namespace SDP_ASG
                                 int qty = int.Parse(Console.ReadLine());
                                 // add extra condiments here
                                 OrderItemFactory factory = new FoodOrderItemFactory();
-                                currentOrder.AddItem(factory.CreateOrderItem(selected, qty));
-                                Console.WriteLine($"{qty}x {selected.Name} added.");
+                                OrderItem orderItem = factory.CreateOrderItem(selected, qty);
 
+                                Command addCommand = new AddItemCommand(orderItem);
+                                addCommand.execute();
+
+                                break;
+
+
+                            case "4":
+                                if (currentOrder != null)
+                                {
+                                    Console.WriteLine("Current Order (" + currentOrder.StateName + "):");
+                                    currentOrder.PrintItems();
+                                }
+                                else Console.WriteLine("No order exists.");
                                 break;
 
                             case "5":
