@@ -10,18 +10,25 @@ namespace SDP_ASG
             Menu mainMenu = new Menu("Main Menu");
             Menu appetizers = new Menu("Appetizers");
             Menu desserts = new Menu("Desserts");
+            Menu drinks = new Menu("Drinks");
             mainMenu.add(appetizers);
             mainMenu.add(desserts);
+            mainMenu.add(drinks);
 
-            MenuItem springrolls = new MenuItem("Spring Rolls", "Crispy rolls with vegetables", 5.99);
-            MenuItem garlicBread = new MenuItem("Garlic Bread", "Toasted bread with garlic butter", 3.99);
+            MenuItem springrolls = new FoodMenuItem("Spring Rolls", "Crispy rolls with vegetables", 5.99);
+            MenuItem garlicBread = new FoodMenuItem("Garlic Bread", "Toasted bread with garlic butter", 3.99);
             appetizers.add(springrolls);
             appetizers.add(garlicBread);
 
-            MenuItem iceCream = new MenuItem("Ice Cream", "Vanilla ice cream", 4.99);
-            MenuItem brownie = new MenuItem("Brownie", "Chocolate brownie with nuts", 6.99);
+            MenuItem iceCream = new FoodMenuItem("Ice Cream", "Vanilla ice cream", 4.99);
+            MenuItem brownie = new FoodMenuItem("Brownie", "Chocolate brownie with nuts", 6.99);
             desserts.add(iceCream);
             desserts.add(brownie);
+
+            MenuItem iceLemonTea = new BeverageMenuItem("Ice Lemon Tea", "Homemade Iced Lemon Tea", 4.99);
+            MenuItem greenTea = new BeverageMenuItem("Green Tea", "Aromatic China Grade Premium Imperial Green Tea", 5.99);
+            drinks.add(iceLemonTea);
+            drinks.add(greenTea);
 
             Order currentOrder = null;
             bool exit = false;
@@ -89,6 +96,8 @@ namespace SDP_ASG
                             "2" => garlicBread,
                             "3" => iceCream,
                             "4" => brownie,
+                            "5" => iceLemonTea,
+                            "6" => greenTea,
                             _ => null
                         };
                         if (selected == null)
@@ -99,6 +108,14 @@ namespace SDP_ASG
                         Console.Write("Quantity: ");
                         int qty = int.Parse(Console.ReadLine());
                         // add extra condiments here
+                        Console.WriteLine("Would you like some sides?");
+                        Console.WriteLine("1 = Cheese");
+                        //string sideChoice = Console.ReadLine();
+                        if (selected is BeverageMenuItem beverage)
+                        {
+                            Console.WriteLine("beverage selected");
+                        }
+
                         OrderItemFactory factory = new FoodOrderItemFactory();
                         currentOrder.AddItem(factory.CreateOrderItem(selected, qty));
                         Console.WriteLine($"{qty}x {selected.Name} added.");
