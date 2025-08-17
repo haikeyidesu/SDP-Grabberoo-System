@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace SDP_ASG
 {
-    internal class OrderItem
+    internal abstract class OrderItem
     {
-        private MenuItem menuItem;
-        private string name => this.menuItem.Name;
-        private string description => this.menuItem.Description;
-        private double price => menuItem.GetDiscountPrice();
-        private int quantity;
-        private double totalPrice => menuItem.GetDiscountPrice() * (double)quantity;
-        private OrderItem orderItem;
-        private List<OrderItem> orderList;
+        protected MenuItem menuItem;
+        protected string name => this.menuItem.Name;
+        protected string description => this.menuItem.Description;
+        protected double price => menuItem.GetDiscountPrice();
+        protected int quantity;
+        protected double totalPrice => menuItem.GetDiscountPrice() * (double)quantity;
+        //protected OrderItem orderItem;
+        protected List<OrderItem> orderList;
         public MenuItem MenuItem
         {
             get { return menuItem; }
@@ -44,14 +44,9 @@ namespace SDP_ASG
             get { return totalPrice; }
         }
 
-        // constructor
-        // OrderItem is a menuItem with the added property of quantity
-        // name and price properties are inherited from a MenuItem
-        public OrderItem(MenuItem menuItem, int quantity)
-        {
-            this.menuItem = menuItem;
-            this.quantity = quantity;
-        }
+        // Decorator
+        public virtual string getDescription() { return description; }
+        public virtual double getTotalPrice() { return totalPrice; }
 
         //Command
         public void AddItem()
