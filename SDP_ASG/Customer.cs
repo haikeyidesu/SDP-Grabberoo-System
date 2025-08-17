@@ -10,7 +10,6 @@ namespace SDP_ASG
     {
         private string email;
         private string password;
-        // Replace arrays with lists
         private List<Command> addOrderCommands;
         private List<Command> removeOrderCommands;
         private Command undoCommand;

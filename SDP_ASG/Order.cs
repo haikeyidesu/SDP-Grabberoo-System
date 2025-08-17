@@ -23,10 +23,15 @@ namespace SDP_ASG
 
         // --- Order Items ---
         private List<OrderItem> items = new List<OrderItem>();
+        public List<OrderItem> Items => items;
 
         public void AddItem(OrderItem item)
         {
             items.Add(item);
+        }
+        public void RemoveItem(OrderItem item)
+        {
+            items.Remove(item);
         }
 
         public bool IsEmpty() => items.Count == 0;

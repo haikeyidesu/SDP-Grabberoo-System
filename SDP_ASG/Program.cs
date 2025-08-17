@@ -62,7 +62,8 @@ namespace SDP_ASG
                         Console.WriteLine("5. Pay & Submit Order");
                         Console.WriteLine("6. Cancel Order");
                         Console.WriteLine("7. Progress Order (Prepare → Deliver)");
-                        Console.WriteLine("8. Exit");
+                        Console.WriteLine("8. Remove Item from Order");
+                        Console.WriteLine("9. Exit");
                         Console.Write("Select option: ");
                         string choice = Console.ReadLine();
 
@@ -188,8 +189,47 @@ namespace SDP_ASG
                                 Console.WriteLine("Order state: " + currentOrder.StateName);
                                 currentOrder = null;
                                 break;
-
                             case "8":
+                                if (currentOrder == null)
+                                {
+                                    Console.WriteLine("No order exists.");
+                                    break;
+                                }
+
+                                Console.WriteLine("Enter item number to remove: 1=Spring Rolls, 2=Garlic Bread, 3=Ice Cream, 4=Brownie");
+                                string removeChoice = Console.ReadLine();
+                                MenuItem itemToRemove = removeChoice switch
+                                {
+                                    "1" => springrolls,
+                                    "2" => garlicBread,
+                                    "3" => iceCream,
+                                    "4" => brownie,
+                                    _ => null
+                                };
+                                if (itemToRemove == null)
+                                {
+                                    Console.WriteLine("Invalid item number selected.");
+                                    break;
+                                }
+
+                                OrderItem itemInOrder = currentOrder.Items
+                                    .FirstOrDefault(oi => oi.MenuItem.Name == itemToRemove.Name);
+
+                                if (itemInOrder == null)
+                                {
+                                    Console.WriteLine("Item not in order.");
+                                    break;
+                                }
+
+                                Command remove = new RemoveItemCommand(itemInOrder, currentOrder);
+
+                                int removeSlot = 0;
+                                customer.SetCommand(removeSlot, new NoCommand(), remove);
+                                customer.RemoveOrder(removeSlot);
+
+                                break;
+
+                            case "9":
                                 exit = true;
                                 break;
 

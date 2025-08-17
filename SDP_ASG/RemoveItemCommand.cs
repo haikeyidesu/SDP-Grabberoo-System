@@ -19,12 +19,14 @@ namespace SDP_ASG
 
         public void execute()
         {
-            item.RemoveItem();
+            order.RemoveItem(item);
             Console.WriteLine($"{item.Quantity}x {item.Name} removed from order.");
         }
 
         public void undo()
         {
+            order.AddItem(item);
+            Console.WriteLine($"{item.Quantity}x {item.Name} added to order.");
         }
     }
 }

@@ -25,6 +25,8 @@ namespace SDP_ASG
 
         public void undo()
         {
+            order.RemoveItem(item);
+            Console.WriteLine($"{item.Quantity}x {item.Name} removed from order.");
         }
     }
 }
