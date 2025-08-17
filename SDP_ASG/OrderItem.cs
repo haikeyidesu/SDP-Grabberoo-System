@@ -9,8 +9,8 @@ namespace SDP_ASG
     internal abstract class OrderItem
     {
         protected MenuItem menuItem;
-        protected string name => this.menuItem.Name;
-        protected string description => this.menuItem.Description;
+        protected string name => menuItem.Name;
+        protected string description => menuItem.Description;
         protected double price => menuItem.GetDiscountPrice();
         protected int quantity;
         protected double totalPrice => menuItem.GetDiscountPrice() * (double)quantity;

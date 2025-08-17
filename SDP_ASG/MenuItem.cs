@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SDP_ASG
 {
-    internal abstract class MenuItem : MenuComponent
+    internal class MenuItem : MenuComponent
     {
         private string name;
         private string description;

@@ -88,7 +88,7 @@ namespace SDP_ASG
                             Console.WriteLine("Please create an order first.");
                             break;
                         }
-                        Console.WriteLine("Enter item number: 1=Spring Rolls, 2=Garlic Bread, 3=Ice Cream, 4=Brownie");
+                        Console.WriteLine("Enter item number: 1=Spring Rolls, 2=Garlic Bread, 3=Ice Cream, 4=Brownie, 5=Ice Lemon Tea, 6=Green Tea");
                         string itemChoice = Console.ReadLine();
                         MenuItem selected = itemChoice switch
                         {
@@ -107,18 +107,48 @@ namespace SDP_ASG
                         }
                         Console.Write("Quantity: ");
                         int qty = int.Parse(Console.ReadLine());
-                        // add extra condiments here
-                        Console.WriteLine("Would you like some sides?");
-                        Console.WriteLine("1 = Cheese");
-                        //string sideChoice = Console.ReadLine();
-                        if (selected is BeverageMenuItem beverage)
-                        {
-                            Console.WriteLine("beverage selected");
-                        }
-
                         OrderItemFactory factory = new FoodOrderItemFactory();
                         currentOrder.AddItem(factory.CreateOrderItem(selected, qty));
-                        Console.WriteLine($"{qty}x {selected.Name} added.");
+                        //add extra condiments here
+                        // if selected is a beverage
+                        OrderItem newOrderItem = null;
+                        if (selected is BeverageMenuItem beverage)
+                        {
+                            Console.WriteLine("Would you like to modify your drink?");
+                            OrderItemFactory bevFactory = new BeverageOrderItemFactory();
+                            newOrderItem = bevFactory.CreateOrderItem(selected, qty);
+
+                            Console.WriteLine("beverage selected");
+                            Console.WriteLine("1 = More Ice");
+                            Console.WriteLine("2 = Less Ice");
+                            Console.WriteLine("3 = Normal Ice");
+                            string iceChoice = Console.ReadLine();
+                            newOrderItem = iceChoice switch
+                            {
+                                "1" => new MoreIce(newOrderItem),
+                                "2" => new LessIce(newOrderItem),
+                                "3" => newOrderItem,
+                                _ => newOrderItem // default to normal ice
+                            };
+                        } else // if selected is a food
+                        {
+                            Console.WriteLine("Would you like some extra condiments?");
+                            OrderItemFactory foodFactory = new FoodOrderItemFactory();
+                            newOrderItem = foodFactory.CreateOrderItem(selected, qty);
+                            Console.WriteLine("1 = Cheese");
+                            Console.WriteLine("2 = Hot Sauce");
+                            Console.WriteLine("3 = No thanks");
+                            string iceChoice = Console.ReadLine();
+                            newOrderItem = iceChoice switch
+                            {
+                                "1" => new Cheese(newOrderItem),
+                                "2" => new HotSauce(newOrderItem),
+                                "3" => newOrderItem,
+                                _ => newOrderItem // default to normal ice
+                            };
+                        }
+                        currentOrder.AddItem(newOrderItem);
+                        Console.WriteLine($"{((OrderItem)newOrderItem).Quantity}x {((OrderItem)newOrderItem).Name} added.");
 
                         break;
 
