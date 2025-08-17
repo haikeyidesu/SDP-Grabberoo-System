@@ -14,15 +14,15 @@ namespace SDP_ASG
         {
             this.Order = order;
         }
-        public void PayOrder(bool payment)
+        public void PayOrder()
         {
             Console.WriteLine("Order has been removed. Cannot pay for it.");
         }
-        public void CancelOrder(bool orderCancellable)
+        public void CancelOrder()
         {
             Console.WriteLine("Order has been removed. Cannot cancel it.");
         }
-        public void RejectOrder(bool orderCancellable)
+        public void RejectOrder()
         {
             Console.WriteLine("Order has been removed. Cannot reject it.");
         }

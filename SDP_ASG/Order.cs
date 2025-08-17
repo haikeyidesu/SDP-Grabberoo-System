@@ -27,8 +27,6 @@ namespace SDP_ASG
         public DateTime DeliveryTime { get { return deliveryTime; } set { deliveryTime = value; } }
         private string address;
         public string Address { get { return address; } set { address = value; } }
-        private string orderStatus;
-        public string OrderStatus { get { return orderStatus; } set { orderStatus = value; } }
         private string paymentMethod;
         public string PaymentMethod { get { return paymentMethod; } set { paymentMethod = value; } }
         private bool orderCancellable;

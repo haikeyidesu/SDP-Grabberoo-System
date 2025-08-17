@@ -24,17 +24,17 @@ namespace SDP_ASG
             }
         }
 
-        public void PayOrder(bool payment)
+        public void PayOrder()
         {
             Console.WriteLine("You have already paid for the order.");
         }
 
-        public void CancelOrder(bool orderCancellable)
+        public void CancelOrder()
         {
             Console.WriteLine("Order cannot be cancelled. It is already completed.");
         }
 
-        public void RejectOrder(bool orderCancellable)
+        public void RejectOrder()
         {
             Console.WriteLine("Order cannot be rejected. It is already completed.");
         }

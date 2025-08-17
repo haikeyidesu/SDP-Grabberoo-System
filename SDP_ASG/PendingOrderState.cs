@@ -16,13 +16,13 @@ namespace SDP_ASG
             this.Order = order;
         }
 
-        public void PayOrder(bool payment)
+        public void PayOrder()
         {
             Console.WriteLine("You have already paid !");
         }
-        public void CancelOrder(bool orderCancellable)
+        public void CancelOrder()
         {
-            if (orderCancellable == true)
+            if (Order.OrderCancellable == true)
             {
                 Console.WriteLine("Order cancelled , you will be refunded ");
                 order.State = order.RemovedState;
@@ -32,9 +32,9 @@ namespace SDP_ASG
                 Console.WriteLine("Order cannot be cancelled. ");
             }
         }
-        public void RejectOrder(bool orderCancellable)
+        public void RejectOrder()
         {
-            if (orderCancellable == true)
+            if (Order.OrderCancellable == true)
             {
                 Console.WriteLine("Order rejected ,customer will be refunded ");
                 order.State = order.RemovedState;
@@ -47,7 +47,6 @@ namespace SDP_ASG
         public void PrepareOrder()
         {
             Console.WriteLine("Order is being prepared.");
-            order.OrderStatus= "Preparing";
             order.State = order.PrepareOrderState;
             order.OrderCancellable = false;
         }

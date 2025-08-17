@@ -15,16 +15,16 @@ namespace SDP_ASG
             this.Order = order;
         }
 
-        public void PayOrder(bool payment)
+        public void PayOrder()
         {
             Console.WriteLine("You have already paid !");
         }
-        public void CancelOrder(bool orderCancellable)
+        public void CancelOrder()
         {
            Console.WriteLine("Order cannot be cancelled. Order is being prepared.");
            
         }
-        public void RejectOrder(bool orderCancellable)
+        public void RejectOrder()
         {
             Console.WriteLine("Order cannot be rejected. Order is being prepared.");
      
@@ -37,7 +37,6 @@ namespace SDP_ASG
         {
             
             Console.WriteLine("Order is completed.");
-            order.OrderStatus = "Completed";
             order.State = order.CompleteOrderState;
         }
     }

@@ -16,23 +16,16 @@ namespace SDP_ASG
             this.Order = order;
         }
 
-        public void PayOrder(bool payment)
+        public void PayOrder()
         {
-            if (payment == true)
-            {   
-                Order.State = Order.PendingOrderState;
-                Console.WriteLine("Order successfully submitted");
-            }
-            else
-            {
-                Console.WriteLine("Please pay first before submitting an order!");
-            }
+            Order.State = Order.PendingOrderState;
+            Console.WriteLine("Order successfully submitted");
         }
-        public void CancelOrder(bool orderCancellable)
+        public void CancelOrder()
         {
             Console.WriteLine("Can't cancel order. Please place one first!");
         }
-        public void RejectOrder(bool orderCancellable) 
+        public void RejectOrder() 
         {
             Console.WriteLine("Cant reject order. No order found.");
         }
