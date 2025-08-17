@@ -33,18 +33,10 @@ internal class Program
         // Create an order and manage its lifecycle using the State Pattern
         Console.WriteLine("\nOrder Lifecycle:");
         Order order = new Order(DateTime.Now, "123 Main St", "Pending", "Credit Card", true);
-
+        
         order.PayOrder(true); // Transition to PendingOrderState
         order.PrepareOrder(); // Transition to PrepareOrderState
         order.CompleteOrder(); // Transition to CompleteOrderState
-
-        // Create a OrderItem with Factory Method Pattern
-        Console.WriteLine("\nCreating Order Item:");
-        OrderItemFactory orderItemFactory = new FoodOrderItemFactory();
-        OrderItem orderItem = orderItemFactory.CreateOrderItem(springrolls, 3);
-        Console.WriteLine($"Order Item Created: {orderItem.Name}, Quantity: {orderItem.Quantity}");
-        // then create an order with the created order item
-
 
         // Payment using the Strategy Pattern
         Console.WriteLine("\nPayment:");
@@ -60,5 +52,13 @@ internal class Program
 
         Console.WriteLine("Paying with Cash on Delivery:");
         cashOnDelivery.processPayment(40.0);
+
+        Console.WriteLine("\nMenu with Holiday Discount:");
+        mainMenu.Discount(new HolidayDiscount());
+        mainMenu.print();
+
+        Console.WriteLine("\nMenu with Student Discount:");
+        mainMenu.Discount(new StudentDiscount());
+        mainMenu.print();
     }
 }
