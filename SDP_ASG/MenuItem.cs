@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SDP_ASG
 {
-    internal class MenuItem : MenuComponent
+    internal abstract class MenuItem : MenuComponent
     {
         private string name;
         private string description;
@@ -26,12 +26,6 @@ namespace SDP_ASG
         {
             get { return price; }
             set { price = value; }
-        }
-        public MenuItem(string name, string desc, double price)
-        {
-            Name = name;
-            Description = desc;
-            Price = price;
         }
 
         public void SetDiscount(DiscountStrategy discount)
