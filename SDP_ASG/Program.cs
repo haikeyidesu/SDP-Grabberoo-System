@@ -107,8 +107,6 @@ namespace SDP_ASG
                         }
                         Console.Write("Quantity: ");
                         int qty = int.Parse(Console.ReadLine());
-                        OrderItemFactory factory = new FoodOrderItemFactory();
-                        currentOrder.AddItem(factory.CreateOrderItem(selected, qty));
                         //add extra condiments here
                         // if selected is a beverage
                         OrderItem newOrderItem = null;
@@ -148,7 +146,7 @@ namespace SDP_ASG
                             };
                         }
                         currentOrder.AddItem(newOrderItem);
-                        Console.WriteLine($"{((OrderItem)newOrderItem).Quantity}x {((OrderItem)newOrderItem).Name} added.");
+                        Console.WriteLine($"{((OrderItem)newOrderItem).getQuantity()}x {((OrderItem)newOrderItem).getName()} added.");
 
                         break;
 

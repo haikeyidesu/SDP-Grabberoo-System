@@ -9,9 +9,9 @@ namespace SDP_ASG
     internal abstract class OrderItem
     {
         protected MenuItem menuItem;
-        protected string name => menuItem.Name;
-        protected string description => menuItem.Description;
-        protected double price => menuItem.GetDiscountPrice();
+        protected string name => this.menuItem.Name;
+        protected string description => this.menuItem.Description;
+        protected double price => this.menuItem.GetDiscountPrice();
         protected int quantity;
         protected double totalPrice => menuItem.GetDiscountPrice() * (double)quantity;
         //protected OrderItem orderItem;
@@ -21,30 +21,11 @@ namespace SDP_ASG
             get { return menuItem; }
             set { menuItem = value; }
         }
-        public string Name
-        {
-            get { return name; }
-        }
-        public string Description
-        {
-            get { return description; }
-        }
-        public double Price
-        {
-            get { return price; }
-        }
-        public int Quantity
-        {
-            get { return quantity; }
-            set { quantity = value; }
-        }
-        // TotalPrice is a calculated property that returns the total price of the order item
-        public double TotalPrice
-        {
-            get { return totalPrice; }
-        }
 
         // Decorator
+        public virtual string getName() { return name; }
+        public virtual double getIndividualPrice() { return price; }
+        public virtual int getQuantity() { return quantity; }
         public virtual string getDescription() { return description; }
         public virtual double getTotalPrice() { return totalPrice; }
 
@@ -52,13 +33,13 @@ namespace SDP_ASG
         public void AddItem()
         {
             orderList.Add(this);
-            Console.WriteLine($"{Quantity}x {Name} added to order.");
+            Console.WriteLine($"{this.getQuantity()}x {this.getName()} added to order.");
         }
 
         public void RemoveItem()
         {
             orderList.Remove(this);
-            Console.WriteLine($"{Quantity}x {Name} removed from order.");
+            Console.WriteLine($"{this.getQuantity()}x {this.getName()} removed from order.");
         }
     }
 }
