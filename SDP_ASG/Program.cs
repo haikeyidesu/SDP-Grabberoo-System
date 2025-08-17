@@ -1,71 +1,145 @@
-﻿// Create the menu structure (Composite Pattern)
-using SDP_ASG;
+﻿using System;
 
-internal class Program
+namespace SDP_ASG
 {
-    private static void Main(string[] args)
+    class Program
     {
-        Menu mainMenu = new Menu("Main Menu");
-        Menu appetizers = new Menu("Appetizers");
-        Menu desserts = new Menu("Desserts");
-        mainMenu.add(appetizers);
-        mainMenu.add(desserts);
-
-        MenuItem springrolls = new MenuItem("Spring Rolls", "Crispy rolls with vegetables", 5.99);
-        MenuItem Garlic = new MenuItem("Garlic Bread", "Toasted bread with garlic butter", 3.99);
-        appetizers.add(springrolls);
-        appetizers.add(Garlic);
-        MenuItem IceCream = new MenuItem("Ice Cream", "Vanilla ice cream", 4.99);
-        MenuItem Brownie = new MenuItem("Brownie", "Chocolate brownie with nuts", 6.99);
-        desserts.add(IceCream);
-        desserts.add(Brownie);
-
-        // Display the menu using the Iterator Pattern
-        Console.WriteLine("Menu:");
-        Iterator menuIterator = mainMenu.createIterator();
-        while (menuIterator.hasNext())
+        static void Main(string[] args)
         {
-            MenuComponent component = menuIterator.next();
-            component.print();
+            // Setup restaurant menu
+            Menu mainMenu = new Menu("Main Menu");
+            Menu appetizers = new Menu("Appetizers");
+            Menu desserts = new Menu("Desserts");
+            mainMenu.add(appetizers);
+            mainMenu.add(desserts);
+
+            MenuItem springrolls = new MenuItem("Spring Rolls", "Crispy rolls with vegetables", 5.99);
+            MenuItem garlicBread = new MenuItem("Garlic Bread", "Toasted bread with garlic butter", 3.99);
+            appetizers.add(springrolls);
+            appetizers.add(garlicBread);
+
+            MenuItem iceCream = new MenuItem("Ice Cream", "Vanilla ice cream", 4.99);
+            MenuItem brownie = new MenuItem("Brownie", "Chocolate brownie with nuts", 6.99);
+            desserts.add(iceCream);
+            desserts.add(brownie);
+
+            Order currentOrder = null;
+            bool exit = false;
+
+            while (!exit)
+            {
+                Console.WriteLine("\n=== Grabberoo Food Delivery ===");
+                Console.WriteLine("1. View Menu");
+                Console.WriteLine("2. Create New Order");
+                Console.WriteLine("3. Add Item to Order");
+                Console.WriteLine("4. View Current Order");
+                Console.WriteLine("5. Pay & Submit Order");
+                Console.WriteLine("6. Cancel Order");
+                Console.WriteLine("7. Progress Order (Prepare → Deliver)");
+                Console.WriteLine("8. Exit");
+                Console.Write("Select option: ");
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        Console.WriteLine("\n--- Menu ---");
+                        Iterator menuIterator = mainMenu.createIterator();
+                        while (menuIterator.hasNext())
+                        {
+                            MenuComponent component = menuIterator.next();
+                            component.print();
+                        }
+                        break;
+
+                    case "2":
+                        currentOrder = new Order(DateTime.Now, "123 Main St", "PendingPayment", "Not Paid", true);
+                        Console.WriteLine("New order created in state: " + currentOrder.StateName);
+                        break;
+
+                    case "3":
+                        if (currentOrder == null)
+                        {
+                            Console.WriteLine("Please create an order first.");
+                            break;
+                        }
+                        Console.WriteLine("Enter item number: 1=Spring Rolls, 2=Garlic Bread, 3=Ice Cream, 4=Brownie");
+                        string itemChoice = Console.ReadLine();
+                        MenuItem selected = itemChoice switch
+                        {
+                            "1" => springrolls,
+                            "2" => garlicBread,
+                            "3" => iceCream,
+                            "4" => brownie,
+                            _ => null
+                        };
+                        if (selected != null)
+                        {
+                            Console.Write("Quantity: ");
+                            int qty = int.Parse(Console.ReadLine());
+                            OrderItemFactory factory = new FoodOrderItemFactory();
+                            currentOrder.AddItem(factory.CreateOrderItem(selected, qty));
+                            Console.WriteLine($"{qty}x {selected.Name} added.");
+                        }
+                        break;
+
+                    case "4":
+                        if (currentOrder != null)
+                        {
+                            Console.WriteLine("Current Order (" + currentOrder.StateName + "):");
+                            currentOrder.PrintItems();
+                        }
+                        else Console.WriteLine("No order exists.");
+                        break;
+
+                    case "5":
+                        if (currentOrder == null || currentOrder.IsEmpty())
+                        {
+                            Console.WriteLine("No items in order.");
+                            break;
+                        }
+                        
+                        Console.WriteLine("Choose payment: 1=Credit Card, 2=PayPal, 3=Cash on Delivery");
+                        string payChoice = Console.ReadLine();
+                        PaymentStrategy payment = payChoice switch
+                        {
+                            "1" => new CreditCardPayment(currentOrder.GetTotal(), "1234-5678-9012-3456"),
+                            "2" => new PayPalPayment(currentOrder.GetTotal(), "user@example.com"),
+                            _ => new CashOnDeliveryPayment()
+                        };
+
+                        payment.processPayment(currentOrder.GetTotal());
+                        currentOrder.PayOrder(); // triggers state machine → PendingOrderState
+                        Console.WriteLine("Order state: " + currentOrder.StateName);
+                        break;
+
+                    case "6":
+                        if (currentOrder != null)
+                        {
+                            currentOrder.CancelOrder();
+                            Console.WriteLine("Order state: " + currentOrder.StateName);
+                        }
+                        else Console.WriteLine("No active order.");
+                        break;
+
+                    case "7":
+                        if (currentOrder == null) { Console.WriteLine("No active order."); break; }
+                        currentOrder.PrepareOrder();  // PendingOrderState → PrepareOrderState
+                        Console.WriteLine("Order state: " + currentOrder.StateName);
+                        currentOrder.CompleteOrder(); // PrepareOrderState → CompleteOrderState
+                        Console.WriteLine("Order state: " + currentOrder.StateName);
+                        currentOrder = null;
+                        break;
+
+                    case "8":
+                        exit = true;
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid option.");
+                        break;
+                }
+            }
         }
-
-
-        // Create an order and manage its lifecycle using the State Pattern
-        Console.WriteLine("\nOrder Lifecycle:");
-        Order order = new Order(DateTime.Now, "123 Main St", "Pending", "Credit Card", true);
-        
-        order.PayOrder(true); // Transition to PendingOrderState
-        order.PrepareOrder(); // Transition to PrepareOrderState
-        order.CompleteOrder(); // Transition to CompleteOrderState
-
-        // Create an OrderItem with Factory Method Pattern
-        Console.WriteLine("\nCreate OrderItem: ");
-        OrderItemFactory foodStall = new FoodOrderItemFactory();
-        foodStall.CreateOrderItem(springrolls, 3);
-
-
-        // Payment using the Strategy Pattern
-        Console.WriteLine("\nPayment:");
-        PaymentStrategy creditCardPayment = new CreditCardPayment(100.0, "1234-5678-9012-3456");
-        PaymentStrategy payPalPayment = new PayPalPayment(50.0, "user@example.com");
-        PaymentStrategy cashOnDelivery = new CashOnDeliveryPayment();
-
-        Console.WriteLine("Paying with Credit Card:");
-        creditCardPayment.processPayment(20.0);
-
-        Console.WriteLine("Paying with PayPal:");
-        payPalPayment.processPayment(30.0);
-
-        Console.WriteLine("Paying with Cash on Delivery:");
-        cashOnDelivery.processPayment(40.0);
-
-        // Discount using Strategy Pattern
-        Console.WriteLine("\nMenu with Holiday Discount:");
-        mainMenu.Discount(new HolidayDiscount());
-        mainMenu.print();
-
-        Console.WriteLine("\nMenu with Student Discount:");
-        mainMenu.Discount(new StudentDiscount());
-        mainMenu.print();
     }
 }
