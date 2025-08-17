@@ -15,7 +15,8 @@ namespace SDP_ASG
         private int quantity;
         private double totalPrice => menuItem.GetDiscountPrice() * (double)quantity;
         private OrderItem orderItem;
-        private List<OrderItem> orderList;
+        private static List<OrderItem> orderList = new List<OrderItem>();
+
         public MenuItem MenuItem
         {
             get { return menuItem; }
