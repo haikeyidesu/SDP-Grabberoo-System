@@ -21,8 +21,6 @@ namespace SDP_ASG
             get { return menuItem; }
             set { menuItem = value; }
         }
-
-        // Decorator
         public virtual string getName() { return name; }
         public virtual double getIndividualPrice() { return price; }
         public virtual int getQuantity() { return quantity; }
