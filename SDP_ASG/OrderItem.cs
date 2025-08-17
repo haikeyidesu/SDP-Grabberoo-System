@@ -15,15 +15,14 @@ namespace SDP_ASG
         protected int quantity;
         protected double totalPrice => price * (double)quantity;
 
+        public double Price 
+        { 
+            get { return price; } 
+        }
         public MenuItem MenuItem
         {
             get { return menuItem; }
             set { menuItem = value; }
-        }
-        // TotalPrice is a calculated property that returns the total price of the order item
-        public double TotalPrice
-        {
-            get { return totalPrice; }
         }
 
         // for decorator

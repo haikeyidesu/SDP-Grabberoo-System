@@ -15,7 +15,7 @@ namespace SDP_ASG
             OrderItem orderItem = new FoodOrderItem(foodMenuItem, quantity);
 
             // display successful creation of FoodOrderItem
-            Console.WriteLine($"Successfully created {orderItem.Name} Order Item x {orderItem.Quantity} \nTotal Cost: ${orderItem.TotalPrice:N2} (Each {orderItem.Name} costs ${orderItem.Price:N2})");
+            Console.WriteLine($"Successfully created {orderItem.getName()} Order Item x {orderItem.getQuantity()} \nTotal Cost: ${orderItem.getCost():N2} (Each {orderItem.getName()} costs ${orderItem.Price:N2})");
 
             return orderItem;
         }

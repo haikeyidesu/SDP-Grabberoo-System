@@ -17,12 +17,12 @@ namespace SDP_ASG
 
         public override string getName()
         {
-            return orderItem.getName() + " with cheese";
+            return orderItem.getName();
         }
 
         public override string getDescription()
         {
-            return orderItem.getDescription() + " + cheese";
+            return orderItem.getDescription() + " with cheese";
         }
 
         public override double getCost()
