@@ -8,9 +8,9 @@ namespace SDP_ASG
 {
     internal interface OrderStates
     {
-        public void PayOrder(bool payment);
-        public void CancelOrder(bool orderCancellable);
-        public void RejectOrder(bool orderCancellable);
+        public void PayOrder();
+        public void CancelOrder();
+        public void RejectOrder();
         public void PrepareOrder();
         public void CompleteOrder();
     }

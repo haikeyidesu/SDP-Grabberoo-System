@@ -67,7 +67,6 @@ namespace SDP_ASG
                     submenu.Discount(discountType);
                 }
 
-                mc.print();
             }
         }
 
