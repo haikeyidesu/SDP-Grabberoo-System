@@ -10,7 +10,7 @@ namespace SDP_ASG
     {
         public double Discount(double price)
         {
-            return price / 100 * 90;
+            return price * 0.9;
         }
     }
 }
