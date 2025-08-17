@@ -14,6 +14,7 @@ namespace SDP_ASG
         public OrderStates CompleteOrderState { get; private set; }
         public OrderStates RemovedState { get; private set; }
 
+
         // --- Order attributes ---
         public DateTime DeliveryTime { get; set; }
         public string Address { get; set; }

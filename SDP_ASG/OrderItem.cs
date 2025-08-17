@@ -6,50 +6,42 @@ using System.Threading.Tasks;
 
 namespace SDP_ASG
 {
-    internal class OrderItem
+    internal abstract class OrderItem
     {
-        private MenuItem menuItem;
-        private string name => this.menuItem.Name;
-        private string description => this.menuItem.Description;
-        private double price => this.menuItem.Price;
-        private int quantity;
-        private double totalPrice => price * (double)quantity;
+        protected MenuItem menuItem;
+        protected string name => this.menuItem.Name;
+        protected string description => this.menuItem.Description;
+        protected double price => this.menuItem.Price;
+        protected int quantity;
+        protected double totalPrice => price * (double)quantity;
 
+        public double Price 
+        { 
+            get { return price; } 
+        }
         public MenuItem MenuItem
         {
             get { return menuItem; }
             set { menuItem = value; }
         }
-        public string Name
-        {
-            get { return name; }
-        }
-        public string Description
-        {
-            get { return description; }
-        }
-        public double Price
-        {
-            get { return price; }
-        }
-        public int Quantity
-        {
-            get { return quantity; }
-            set { quantity = value; }
-        }
-        // TotalPrice is a calculated property that returns the total price of the order item
-        public double TotalPrice
-        {
-            get { return totalPrice; }
-        }
 
-        // constructor
-        // OrderItem is a menuItem with the added property of quantity
-        // name and price properties are inherited from a MenuItem
-        public OrderItem(MenuItem menuItem, int quantity)
+        // for decorator
+        public virtual string getName()
         {
-            this.menuItem = menuItem;
-            this.quantity = quantity;
+            return name;
         }
+        public virtual string getDescription()
+        {
+            return description;
+        }
+        public virtual double getCost()
+        {
+            return totalPrice;
+        }
+        public virtual int getQuantity()
+        {
+            return quantity;
+        }
+                
     }
 }
