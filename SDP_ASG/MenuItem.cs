@@ -39,10 +39,16 @@ namespace SDP_ASG
             discountType = discount;
         }
 
+        public double GetDiscountPrice()
+        {
+            return discountType != null ? discountType.Discount(price) : price;
+        }
+
+
         public override void print()
         {
             string indentString = new string(' ', Indent * 2);
-            double discountPrice = discountType != null ? discountType.Discount(price) : price;
+            double discountPrice = GetDiscountPrice();
             Console.WriteLine($"{indentString}{Name} - {Description}\n{indentString}Price: ${discountPrice:0.00}");
         }
 
