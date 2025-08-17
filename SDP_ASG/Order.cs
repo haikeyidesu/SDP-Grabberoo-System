@@ -41,7 +41,7 @@ namespace SDP_ASG
             double total = 0;
             foreach (var item in items)
             {
-                total += item.TotalPrice;
+                total += item.getTotalPrice();
             }
             return total;
         }
@@ -57,7 +57,7 @@ namespace SDP_ASG
             Console.WriteLine("--- Order Items ---");
             foreach (var item in items)
             {
-                Console.WriteLine($"{item.Quantity}x {item.MenuItem.Name} - ${item.TotalPrice:0.00}");
+                Console.WriteLine($"{item.getQuantity()}x {item.getName()} - ${item.getTotalPrice():0.00}");
             }
             Console.WriteLine($"Total = ${GetTotal():0.00}");
         }

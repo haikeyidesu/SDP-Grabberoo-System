@@ -8,8 +8,11 @@ namespace SDP_ASG
 {
     internal class FoodMenuItem : MenuItem
     {
-        public FoodMenuItem(string name, string desc, double price) : base(name, desc, price)
+        public FoodMenuItem(string name, string desc, double price)
         {
+            this.Name = name;
+            this.Description = desc;
+            this.Price = price;
         }
 
         public override void print()

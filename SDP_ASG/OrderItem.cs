@@ -6,52 +6,39 @@ using System.Threading.Tasks;
 
 namespace SDP_ASG
 {
-    internal class OrderItem
+    internal abstract class OrderItem
     {
-        private MenuItem menuItem;
-        private string name => this.menuItem.Name;
-        private string description => this.menuItem.Description;
-        private double price => menuItem.GetDiscountPrice();
-        private int quantity;
-        private double totalPrice => menuItem.GetDiscountPrice() * (double)quantity;
-        private OrderItem orderItem;
-        private static List<OrderItem> orderList = new List<OrderItem>();
+        protected MenuItem menuItem;
+        protected string name => this.menuItem.Name;
+        protected string description => this.menuItem.Description;
+        protected double price => this.menuItem.GetDiscountPrice();
+        protected int quantity;
+        protected double totalPrice => menuItem.GetDiscountPrice() * (double)quantity;
+        //protected OrderItem orderItem;
+        protected List<OrderItem> orderList;
 
         public MenuItem MenuItem
         {
             get { return menuItem; }
             set { menuItem = value; }
         }
-        public string Name
+        public virtual string getName() { return name; }
+        public virtual double getIndividualPrice() { return price; }
+        public virtual int getQuantity() { return quantity; }
+        public virtual string getDescription() { return description; }
+        public virtual double getTotalPrice() { return totalPrice; }
+
+        //Command
+        public void AddItem()
         {
-            get { return name; }
-        }
-        public string Description
-        {
-            get { return description; }
-        }
-        public double Price
-        {
-            get { return price; }
-        }
-        public int Quantity
-        {
-            get { return quantity; }
-            set { quantity = value; }
-        }
-        // TotalPrice is a calculated property that returns the total price of the order item
-        public double TotalPrice
-        {
-            get { return totalPrice; }
+            orderList.Add(this);
+            Console.WriteLine($"{this.getQuantity()}x {this.getName()} added to order.");
         }
 
-        // constructor
-        // OrderItem is a menuItem with the added property of quantity
-        // name and price properties are inherited from a MenuItem
-        public OrderItem(MenuItem menuItem, int quantity)
+        public void RemoveItem()
         {
-            this.menuItem = menuItem;
-            this.quantity = quantity;
+            orderList.Remove(this);
+            Console.WriteLine($"{this.getQuantity()}x {this.getName()} removed from order.");
         }
     }
 }
