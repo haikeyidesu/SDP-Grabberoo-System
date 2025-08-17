@@ -59,6 +59,7 @@ internal class Program
         Console.WriteLine("Paying with Cash on Delivery:");
         cashOnDelivery.processPayment(40.0);
 
+        // Discount using Strategy Pattern
         Console.WriteLine("\nMenu with Holiday Discount:");
         mainMenu.Discount(new HolidayDiscount());
         mainMenu.print();

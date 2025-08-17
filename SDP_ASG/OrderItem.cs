@@ -11,10 +11,11 @@ namespace SDP_ASG
         private MenuItem menuItem;
         private string name => this.menuItem.Name;
         private string description => this.menuItem.Description;
-        private double price => this.menuItem.Price;
+        private double price => menuItem.GetDiscountPrice();
         private int quantity;
-        private double totalPrice => price * (double)quantity;
-
+        private double totalPrice => menuItem.GetDiscountPrice() * (double)quantity;
+        private OrderItem orderItem;
+        private List<OrderItem> orderList;
         public MenuItem MenuItem
         {
             get { return menuItem; }
@@ -50,6 +51,19 @@ namespace SDP_ASG
         {
             this.menuItem = menuItem;
             this.quantity = quantity;
+        }
+
+        //Command
+        public void AddItem()
+        {
+            orderList.Add(this);
+            Console.WriteLine($"{Quantity}x {Name} added to order.");
+        }
+
+        public void RemoveItem()
+        {
+            orderList.Remove(this);
+            Console.WriteLine($"{Quantity}x {Name} removed from order.");
         }
     }
 }
